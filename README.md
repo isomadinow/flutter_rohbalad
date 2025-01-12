@@ -69,7 +69,7 @@
    flutter run
    ```
 
-## [Ссылка на фигму на дизайн проекта] (https://www.figma.com/design/rtjHBr46VcqPthuY52j9l7/Rohbalad?node-id=0-1&p=f&t=r0rHPyHtuAx8DoAm-0)
+## [Ссылка на фигму на дизайн проекта](https://www.figma.com/design/rtjHBr46VcqPthuY52j9l7/Rohbalad?node-id=0-1&p=f&t=r0rHPyHtuAx8DoAm-0)
 
 
 ## Структура каталогов
