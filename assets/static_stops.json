@@ -1,0 +1,18 @@
+[
+    {
+      "id": 1,
+      "name": "Stop 1",
+      "routes": [
+        { "id": "route-1", "number": "1-T" },
+        { "id": "route-2", "number": "2" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Stop 2",
+      "routes": [
+        { "id": "route-1", "number": "1-T" }
+      ]
+    }
+  ]
+  
