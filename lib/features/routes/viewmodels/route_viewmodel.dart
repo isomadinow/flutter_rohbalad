@@ -32,13 +32,18 @@ class RouteViewModel extends BaseViewModel {
     }
   }
 
-  void searchRoutes(String query) {
+void searchRoutes(String query) {
+  if (query.isEmpty) {
+    _filteredRoutes = List.from(_routes);
+  } else {
     _filteredRoutes = _routes
-        .where((route) => route.number.toLowerCase().contains(query.toLowerCase()))
+        .where((route) =>
+            route.number.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    log('Найденные маршруты: ${_filteredRoutes.length}');
-    notifyListeners();
   }
+  notifyListeners();
+}
+
 
   void toggleFavoriteRoute(String routeNumber) {
     if (_favoriteRoutes.contains(routeNumber)) {

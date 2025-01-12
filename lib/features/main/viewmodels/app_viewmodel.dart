@@ -22,6 +22,13 @@ class AppViewModel extends ChangeNotifier {
     _activeTab = tab;
     notifyListeners();
   }
+void search(String query) {
+  if (_activeTab == "routes") {
+    routeViewModel.searchRoutes(query);
+  } else if (_activeTab == "stops") {
+    stopViewModel.searchStops(query);
+  }
+}
 
   Future<void> initialize() async {
     await regionViewModel.fetchRegions();

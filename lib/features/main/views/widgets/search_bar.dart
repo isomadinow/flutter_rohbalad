@@ -35,10 +35,8 @@ class SearchBar extends StatelessWidget {
             ),
             contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
             border: InputBorder.none, // Убираем рамки
-            enabledBorder: InputBorder.none, // Убираем рамки
-            focusedBorder: InputBorder.none, // Убираем рамки
           ),
-          onSubmitted: onSearch,
+          onChanged: onSearch, // Реакция на изменение текста
         ),
       ),
     );

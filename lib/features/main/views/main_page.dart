@@ -7,13 +7,20 @@ import 'widgets/region_dropdown.dart';
 import 'widgets/tab_bar_switcher.dart';
 import 'widgets/search_bar.dart';
 import 'package:flutter_rohbalad/features/main/views/widgets/search_bar.dart' as custom;
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  String _searchQuery = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Полностью белый фон
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -34,6 +41,9 @@ class MainPage extends StatelessWidget {
                     ? "Найти маршрут..."
                     : "Найти остановку...",
                 onSearch: (query) {
+                  setState(() {
+                    _searchQuery = query;
+                  });
                   if (appViewModel.activeTab == "routes") {
                     appViewModel.routeViewModel.searchRoutes(query);
                   } else {
@@ -47,7 +57,17 @@ class MainPage extends StatelessWidget {
             builder: (context, appViewModel, child) {
               return TabBarSwitcher(
                 activeTab: appViewModel.activeTab,
-                onTabSelected: (tab) => appViewModel.setActiveTab(tab),
+                onTabSelected: (tab) {
+                  setState(() {
+                    // При переключении вкладки инициировать поиск с текущим запросом
+                    appViewModel.setActiveTab(tab);
+                    if (tab == "routes") {
+                      appViewModel.routeViewModel.searchRoutes(_searchQuery);
+                    } else {
+                      appViewModel.stopViewModel.searchStops(_searchQuery);
+                    }
+                  });
+                },
               );
             },
           ),

@@ -32,13 +32,17 @@ class StopViewModel extends BaseViewModel {
     }
   }
 
-  void searchStops(String query) {
+ void searchStops(String query) {
+  if (query.isEmpty) {
+    _filteredStops = List.from(_stops);
+  } else {
     _filteredStops = _stops
         .where((stop) => stop.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    log('Найденные остановки: ${_filteredStops.length}');
-    notifyListeners();
   }
+  notifyListeners();
+}
+
 
   void toggleFavoriteStop(String stopId) {
     if (_favoriteStops.contains(stopId)) {
