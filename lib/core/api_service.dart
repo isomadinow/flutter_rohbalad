@@ -15,12 +15,11 @@ class ApiService {
   ) async {
     try {
       if (useMockData) {
-        return _fetchMockData<T>(endpoint, fromJson); // Заглушки
+        return _fetchMockData<T>(endpoint, fromJson);
       }
-      return _fetchApiData<T>(endpoint, fromJson); // API
+      return _fetchApiData<T>(endpoint, fromJson);
     } catch (e) {
       log('Ошибка загрузки данных ($endpoint): $e');
-      // Если API недоступно, fallback на заглушки
       return _fetchMockData<T>(endpoint, fromJson);
     }
   }
@@ -38,24 +37,30 @@ class ApiService {
     }
   }
 
- Future<List<T>> _fetchMockData<T>(
-  String endpoint,
-  T Function(Map<String, dynamic>) fromJson,
-) async {
-  final mockPaths = {
-    'routes': 'assets/static_routes.json',
-    'stops': 'assets/static_stops.json',
-    'regions': 'assets/static_regions.json',
-  };
+  Future<List<T>> _fetchMockData<T>(
+    String endpoint,
+    T Function(Map<String, dynamic>) fromJson,
+  ) async {
+    final mockPaths = {
+      'routes': 'assets/static_routes.json',
+      'stops': 'assets/static_stops.json',
+      'regions': 'assets/static_regions.json',
+    };
 
-  final path = mockPaths[endpoint];
-  if (path == null) {
-    throw Exception('Неизвестный endpoint для заглушек: $endpoint');
+    final path = mockPaths[endpoint];
+    log('Чтение файла: $path');
+    if (path == null) {
+      throw Exception('Неизвестный endpoint для заглушек: $endpoint');
+    }
+
+    try {
+      final response = await rootBundle.loadString(path);
+      final List<dynamic> data = json.decode(response);
+      log('Загружено ${data.length} элементов из $endpoint');
+      return data.map((item) => fromJson(item)).toList();
+    } catch (e) {
+      log('Ошибка чтения файла $path: $e');
+      throw Exception('Ошибка чтения файла: $path');
+    }
   }
-
-  final response = await rootBundle.loadString(path);
-  final List<dynamic> data = json.decode(response);
-  return data.map((item) => fromJson(item)).toList();
-}
-
 }

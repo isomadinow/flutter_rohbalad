@@ -17,32 +17,85 @@ class StopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+      elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ListTile(
-        leading: const Icon(Icons.directions_bus, color: Colors.blue),
-        title: Text(
-          stopName,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-        ),
-        subtitle: Wrap(
-          spacing: 6.0,
-          children: routeNumbers
-              .map((route) => Chip(
-                    label: Text(route),
-                    backgroundColor: Colors.grey[200],
-                  ))
-              .toList(),
-        ),
-        trailing: IconButton(
-          icon: Icon(
-            isFavorite ? Icons.star : Icons.star_border,
-            color: isFavorite ? Colors.yellow : Colors.grey,
-          ),
-          onPressed: onFavoriteTap,
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 50.0,
+              height: 50.0,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.directions_bus,
+                color: Colors.white,
+                size: 28.0,
+              ),
+            ),
+            const SizedBox(width: 12.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    stopName,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6.0),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: routeNumbers
+                          .map(
+                            (route) => Container(
+                              margin: const EdgeInsets.only(right: 6.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0,
+                                vertical: 4.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8.0),
+                                border: Border.all(
+                                  color: Colors.grey[400]!,
+                                ),
+                              ),
+                              child: Text(
+                                route,
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12.0),
+            IconButton(
+              icon: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                color: isFavorite ? Colors.yellow : Colors.grey,
+              ),
+              onPressed: onFavoriteTap,
+            ),
+          ],
         ),
       ),
     );

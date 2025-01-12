@@ -5,7 +5,9 @@
     "latitude": 41.311081,
     "longitude": 69.240562,
     "routes": [
-      { "number": "1", "stops": [{ "name": "Stop A" }, { "name": "Stop B" }] }
+      { "number": "1", "stops": [{ "name": "Stop A" }, { "name": "Stop B" }] },
+      { "number": "3-t", "stops": [{ "name": "Stop A" }, { "name": "Stop B" }] } 
+
     ]
   },
   {

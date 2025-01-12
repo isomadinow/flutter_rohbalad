@@ -12,11 +12,16 @@ class RegionSelector extends StatelessWidget {
     final regionViewModel = Provider.of<RegionViewModel>(context);
 
     if (regionViewModel.isLoading) {
-      return const CircularProgressIndicator(); // Показываем загрузку, если данные еще загружаются
+      return const Center(child: CircularProgressIndicator());
     }
 
     if (regionViewModel.regions.isEmpty) {
-      return const Center(child: Text("Нет доступных регионов"));
+      return const Center(
+        child: Text(
+          "Нет доступных регионов",
+          style: TextStyle(color: Colors.red, fontSize: 16),
+        ),
+      );
     }
 
     return DropdownButton<String>(
@@ -32,7 +37,7 @@ class RegionSelector extends StatelessWidget {
       onChanged: (String? value) {
         if (value != null) {
           regionViewModel.setSelectedRegion(value);
-          onRegionSelected(value); // Уведомляем родительский компонент о выборе региона
+          onRegionSelected(value);
         }
       },
     );

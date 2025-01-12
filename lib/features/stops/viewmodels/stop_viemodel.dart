@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import '../../../core/api_service.dart';
 import '../../../core/base_viewmodel.dart';
 import '../models/stop.dart';
@@ -13,23 +12,23 @@ class StopViewModel extends BaseViewModel {
   List<Stop> _filteredStops = [];
   final Set<String> _favoriteStops = {};
 
-  List<Stop> get stops => _stops;
   List<Stop> get filteredStops => _filteredStops;
   Set<String> get favoriteStops => _favoriteStops;
 
   Future<void> fetchStops() async {
     setLoading(true);
     try {
-      // Загружаем остановки из API или fallback на заглушки
       _stops = await apiService.fetchData(
-        'stops', // Ключ для API и заглушки
-        (json) => Stop.fromJson(json), // Преобразование JSON в модель Stop
+        'stops',
+        (json) => Stop.fromJson(json),
       );
       _filteredStops = List.from(_stops);
+      log('Остановки загружены: ${_stops.length}');
     } catch (e) {
       log('Ошибка загрузки остановок: $e');
     } finally {
       setLoading(false);
+      notifyListeners();
     }
   }
 
@@ -37,6 +36,7 @@ class StopViewModel extends BaseViewModel {
     _filteredStops = _stops
         .where((stop) => stop.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
+    log('Найденные остановки: ${_filteredStops.length}');
     notifyListeners();
   }
 
@@ -46,6 +46,7 @@ class StopViewModel extends BaseViewModel {
     } else {
       _favoriteStops.add(stopId);
     }
+    log('Избранные остановки: $_favoriteStops');
     notifyListeners();
   }
 }

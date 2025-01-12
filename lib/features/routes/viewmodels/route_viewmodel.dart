@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import '../../../core/api_service.dart';
 import '../../../core/base_viewmodel.dart';
 import '../models/transport_route.dart';
@@ -19,16 +18,17 @@ class RouteViewModel extends BaseViewModel {
   Future<void> fetchRoutes() async {
     setLoading(true);
     try {
-      // Загружаем маршруты из API или fallback на заглушки
       _routes = await apiService.fetchData(
-        'routes', // Ключ для API и заглушки
-        (json) => TransportRoute.fromJson(json), // Преобразование JSON в модель TransportRoute
+        'routes',
+        (json) => TransportRoute.fromJson(json),
       );
       _filteredRoutes = List.from(_routes);
+      log('Маршруты загружены: ${_routes.length}');
     } catch (e) {
       log('Ошибка загрузки маршрутов: $e');
     } finally {
       setLoading(false);
+      notifyListeners();
     }
   }
 
@@ -36,6 +36,7 @@ class RouteViewModel extends BaseViewModel {
     _filteredRoutes = _routes
         .where((route) => route.number.toLowerCase().contains(query.toLowerCase()))
         .toList();
+    log('Найденные маршруты: ${_filteredRoutes.length}');
     notifyListeners();
   }
 
@@ -45,6 +46,7 @@ class RouteViewModel extends BaseViewModel {
     } else {
       _favoriteRoutes.add(routeNumber);
     }
+    log('Избранные маршруты: $_favoriteRoutes');
     notifyListeners();
   }
 }

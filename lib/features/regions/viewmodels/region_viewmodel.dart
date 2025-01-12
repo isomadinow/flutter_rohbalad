@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import '../../../core/api_service.dart';
 import '../../../core/base_viewmodel.dart';
 import '../models/region.dart';
@@ -18,23 +17,25 @@ class RegionViewModel extends BaseViewModel {
   Future<void> fetchRegions() async {
     setLoading(true);
     try {
-      // Загружаем регионы из API или fallback на заглушки
       _regions = await apiService.fetchData(
-        'regions', // Ключ для API и заглушки
-        (json) => Region.fromJson(json), // Преобразование JSON в модель Region
+        'regions',
+        (json) => Region.fromJson(json),
       );
       if (_regions.isNotEmpty) {
-        _selectedRegionId = _regions.first.id; // Установить первый регион по умолчанию
+        _selectedRegionId = _regions.first.id;
+        log('Регионы загружены: ${_regions.length}');
       }
     } catch (e) {
       log('Ошибка загрузки регионов: $e');
     } finally {
       setLoading(false);
+      notifyListeners();
     }
   }
 
   void setSelectedRegion(String regionId) {
     _selectedRegionId = regionId;
+    log('Выбран регион: $regionId');
     notifyListeners();
   }
 }
