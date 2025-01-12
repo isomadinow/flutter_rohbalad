@@ -1,16 +1,20 @@
 [
   {
-    "number": "1-T",
+    "number": "1",
     "stops": [
-      { "name": "ТТЗ АШБ" },
-      { "name": "Метро \"Машинасозлар\" АШБ" }
+      { "name": "Stop A" },
+      { "name": "Stop B" },
+      { "name": "Stop C" },
+      { "name": "Stop D" }
+
+
     ]
   },
   {
     "number": "2",
     "stops": [
-      { "name": "25-й квартал массива Чиланзар" },
-      { "name": "Алайский базар" }
+      { "name": "Stop C" },
+      { "name": "Stop D" }
     ]
   }
 ]

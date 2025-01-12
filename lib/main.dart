@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'features/routes/viewmodels/routes_viewmodel.dart';
 import 'core/api_service.dart';
-import 'features/routes/views/routes_page.dart';
+import 'features/main/viewmodels/app_viewmodel.dart';
+import 'features/main/views/main_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RoutesViewModel(apiService: ApiService()),
+          create: (_) => AppViewModel(
+            apiService: ApiService(
+              baseUrl: "https://api.example.com", // Реальный или мок-URL
+              useMockData: true, // Используйте `false` для реальных данных
+            ),
+          ),
         ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Transport App',
+        title: 'Рох балад',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: RoutesPage(),
+        home: const MainPage(), // Главный экран
       ),
     );
   }
