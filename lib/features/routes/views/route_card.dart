@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
-
-/// Виджет `RouteCard` представляет карточку маршрута с информацией и функционалом добавления в избранное.
+//// Виджет `RouteCard` представляет карточку маршрута.
 class RouteCard extends StatelessWidget {
-  /// Номер маршрута.
   final String routeNumber;
-
-  /// Название первой остановки маршрута.
   final String firstStop;
-
-  /// Название последней остановки маршрута.
   final String lastStop;
-
-  /// Флаг, указывающий, находится ли маршрут в избранном.
   final bool isFavorite;
-
-  /// Коллбэк, вызываемый при нажатии на иконку избранного.
   final VoidCallback onFavoriteTap;
 
-  /// Конструктор для создания виджета `RouteCard`.
   const RouteCard({
     super.key,
     required this.routeNumber,
@@ -30,31 +19,30 @@ class RouteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+    const Color primaryColor = Colors.green; // Унифицированный основной цвет.
+    const Color circleColor = Colors.green; // Цвет для кругов.
 
     return Card(
-      elevation: 1, // Уровень теней для карточки.
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Внешние отступы.
+      elevation: 1,
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0), // Скругление углов карточки.
+        borderRadius: BorderRadius.circular(12.0),
       ),
-      color: isDarkTheme ? Colors.grey[900] : Colors.white, // Цвет фона карточки в зависимости от темы.
       child: Padding(
-        padding: const EdgeInsets.all(12.0), // Внутренние отступы для содержимого карточки.
+        padding: const EdgeInsets.all(12.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center, // Выравнивание по вертикали.
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Круглый контейнер с номером маршрута и иконкой автобуса.
             Container(
               width: 50.0,
               height: 50.0,
-              decoration: BoxDecoration(
-                color: Colors.green, // Фон контейнера.
-                shape: BoxShape.circle, // Форма контейнера — круг.
+              decoration: const BoxDecoration(
+                color: circleColor,
+                shape: BoxShape.circle,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center, // Центровка содержимого.
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Номер маршрута.
                   Text(
                     routeNumber,
                     style: const TextStyle(
@@ -63,7 +51,6 @@ class RouteCard extends StatelessWidget {
                       fontSize: 14.0,
                     ),
                   ),
-                  // Иконка автобуса.
                   const Icon(
                     Icons.directions_bus,
                     color: Colors.white,
@@ -72,18 +59,16 @@ class RouteCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 12.0), // Отступ между контейнером и текстовой частью.
-            // Основной контент карточки с информацией о маршруте.
+            const SizedBox(width: 12.0),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // Выравнивание текста по левому краю.
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Первая остановка.
                   Row(
                     children: [
                       const Icon(
                         Icons.radio_button_checked,
-                        color: Colors.green, // Цвет иконки первой остановки.
+                        color: primaryColor,
                         size: 16.0,
                       ),
                       const SizedBox(width: 4.0),
@@ -93,20 +78,19 @@ class RouteCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
-                            color: isDarkTheme ? Colors.white : Colors.black, // Цвет текста в зависимости от темы.
+                            color: isDarkTheme ? Colors.white : Colors.black, // Изменение цвета текста.
                           ),
-                          overflow: TextOverflow.ellipsis, // Текст в одну строку с многоточием.
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6.0), // Отступ между остановками.
-                  // Последняя остановка.
+                  const SizedBox(height: 6.0),
                   Row(
                     children: [
                       const Icon(
                         Icons.radio_button_checked,
-                        color: Colors.blue, // Цвет иконки последней остановки.
+                        color: primaryColor,
                         size: 16.0,
                       ),
                       const SizedBox(width: 4.0),
@@ -116,9 +100,9 @@ class RouteCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
-                            color: isDarkTheme ? Colors.white : Colors.black, // Цвет текста в зависимости от темы.
+                            color: isDarkTheme ? Colors.white : Colors.black, // Изменение цвета текста.
                           ),
-                          overflow: TextOverflow.ellipsis, // Текст в одну строку с многоточием.
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -126,14 +110,13 @@ class RouteCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 12.0), // Отступ между текстом и иконкой избранного.
-            // Иконка избранного с обработкой нажатий.
+            const SizedBox(width: 12.0),
             IconButton(
               icon: Icon(
-                isFavorite ? Icons.star : Icons.star_border, // Иконка избранного.
-                color: isFavorite ? Colors.yellow : Colors.grey, // Цвет иконки в зависимости от состояния.
+                isFavorite ? Icons.star : Icons.star_border,
+                color: isFavorite ? Colors.yellow : Colors.grey,
               ),
-              onPressed: onFavoriteTap, // Обработка нажатия.
+              onPressed: onFavoriteTap,
             ),
           ],
         ),

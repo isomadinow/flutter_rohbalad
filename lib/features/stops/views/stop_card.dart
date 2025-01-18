@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// Виджет `StopCard` представляет карточку остановки с названием, маршрутами и функцией добавления в избранное.
+/// Виджет `StopCard` представляет карточку остановки.
 class StopCard extends StatelessWidget {
-  /// Название остановки.
   final String stopName;
-
-  /// Список номеров маршрутов, проходящих через остановку.
   final List<String> routeNumbers;
-
-  /// Флаг, указывающий, находится ли остановка в избранном.
   final bool isFavorite;
-
-  /// Коллбэк, вызываемый при нажатии на иконку избранного.
   final VoidCallback onFavoriteTap;
 
-  /// Конструктор для создания виджета `StopCard`.
   const StopCard({
     super.key,
     required this.stopName,
@@ -25,64 +17,65 @@ class StopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+    const Color primaryColor = Colors.green; // Унифицированный основной цвет.
+    const Color circleColor = Colors.green; // Цвет для кругов.
+
     return Card(
-      elevation: 2, // Уровень теней для карточки.
+      elevation: 1,
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0), // Скругление углов карточки.
+        borderRadius: BorderRadius.circular(12.0),
       ),
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Внешние отступы карточки.
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0), // Внутренние отступы.
+        padding: const EdgeInsets.all(12.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center, // Выравнивание содержимого по вертикали.
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Круглый контейнер с иконкой остановки.
             Container(
               width: 50.0,
               height: 50.0,
-              decoration: BoxDecoration(
-                color: Colors.blue, // Фон контейнера.
-                shape: BoxShape.circle, // Форма контейнера — круг.
+              decoration: const BoxDecoration(
+                color: circleColor,
+                shape: BoxShape.circle,
               ),
               child: const Icon(
-                Icons.directions_bus, // Иконка автобуса.
+                Icons.directions_bus,
                 color: Colors.white,
                 size: 28.0,
               ),
             ),
-            const SizedBox(width: 12.0), // Отступ между иконкой и текстовой частью.
-            // Основной контент карточки.
+            const SizedBox(width: 12.0),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // Выравнивание текста по левому краю.
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Название остановки.
                   Text(
                     stopName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16.0,
+                      color: isDarkTheme ? Colors.white : Colors.black, // Изменение цвета текста.
                     ),
-                    overflow: TextOverflow.ellipsis, // Текст обрезается с многоточием, если не помещается.
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 6.0), // Отступ между названием и списком маршрутов.
-                  // Горизонтальный список маршрутов.
+                  const SizedBox(height: 6.0),
                   SingleChildScrollView(
-                    scrollDirection: Axis.horizontal, // Прокрутка по горизонтали.
+                    scrollDirection: Axis.horizontal,
                     child: Row(
                       children: routeNumbers
                           .map(
                             (route) => Container(
-                              margin: const EdgeInsets.only(right: 6.0), // Отступ между маршрутами.
+                              margin: const EdgeInsets.only(right: 6.0),
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, // Горизонтальные отступы внутри контейнера.
-                                vertical: 4.0, // Вертикальные отступы внутри контейнера.
+                                horizontal: 10.0,
+                                vertical: 4.0,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.grey[200], // Фон контейнера маршрута.
-                                borderRadius: BorderRadius.circular(8.0), // Скругление углов контейнера.
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8.0),
                                 border: Border.all(
-                                  color: Colors.grey[400]!, // Цвет границы.
+                                  color: Colors.grey[400]!,
                                 ),
                               ),
                               child: Text(
@@ -90,7 +83,7 @@ class StopCard extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black, // Изменение цвета текста на черный.
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
@@ -101,14 +94,13 @@ class StopCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 12.0), // Отступ между текстом и иконкой избранного.
-            // Иконка избранного с обработкой нажатий.
+            const SizedBox(width: 12.0),
             IconButton(
               icon: Icon(
-                isFavorite ? Icons.star : Icons.star_border, // Иконка избранного.
-                color: isFavorite ? Colors.yellow : Colors.grey, // Цвет иконки в зависимости от состояния.
+                isFavorite ? Icons.star : Icons.star_border,
+                color: isFavorite ? Colors.yellow : Colors.grey,
               ),
-              onPressed: onFavoriteTap, // Обработка нажатия.
+              onPressed: onFavoriteTap,
             ),
           ],
         ),
