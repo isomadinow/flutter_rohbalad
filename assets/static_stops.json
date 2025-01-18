@@ -6,8 +6,7 @@
     "longitude": 69.240562,
     "routes": [
       { "number": "1", "stops": [{ "name": "Stop A" }, { "name": "Stop B" }] },
-      { "number": "3-t", "stops": [{ "name": "Stop A" }, { "name": "Stop B" }] } 
-
+      { "number": "3-t", "stops": [{ "name": "Stop A" }, { "name": "Stop B" }] }
     ]
   },
   {
@@ -17,6 +16,78 @@
     "longitude": 69.240073,
     "routes": [
       { "number": "2", "stops": [{ "name": "Stop A" }, { "name": "Stop B" }] }
+    ]
+  },
+  {
+    "id": "stop-3",
+    "name": "Базар",
+    "latitude": 41.312345,
+    "longitude": 69.241234,
+    "routes": [
+      { "number": "3", "stops": [{ "name": "Stop C" }, { "name": "Stop D" }] }
+    ]
+  },
+  {
+    "id": "stop-4",
+    "name": "Школа",
+    "latitude": 41.313456,
+    "longitude": 69.242345,
+    "routes": [
+      { "number": "4", "stops": [{ "name": "Stop E" }, { "name": "Stop F" }] }
+    ]
+  },
+  {
+    "id": "stop-5",
+    "name": "Больница",
+    "latitude": 41.314567,
+    "longitude": 69.243456,
+    "routes": [
+      { "number": "5", "stops": [{ "name": "Stop G" }, { "name": "Stop H" }] }
+    ]
+  },
+  {
+    "id": "stop-6",
+    "name": "Парк",
+    "latitude": 41.315678,
+    "longitude": 69.244567,
+    "routes": [
+      { "number": "6", "stops": [{ "name": "Stop I" }, { "name": "Stop J" }] }
+    ]
+  },
+  {
+    "id": "stop-7",
+    "name": "Университет",
+    "latitude": 41.316789,
+    "longitude": 69.245678,
+    "routes": [
+      { "number": "7", "stops": [{ "name": "Stop K" }, { "name": "Stop L" }] }
+    ]
+  },
+  {
+    "id": "stop-8",
+    "name": "Театр",
+    "latitude": 41.317890,
+    "longitude": 69.246789,
+    "routes": [
+      { "number": "8", "stops": [{ "name": "Stop M" }, { "name": "Stop N" }] }
+    ]
+  },
+  {
+    "id": "stop-9",
+    "name": "Стадион",
+    "latitude": 41.318901,
+    "longitude": 69.247890,
+    "routes": [
+      { "number": "9", "stops": [{ "name": "Stop O" }, { "name": "Stop P" }] }
+    ]
+  },
+  {
+    "id": "stop-10",
+    "name": "Аэропорт",
+    "latitude": 41.319012,
+    "longitude": 69.248901,
+    "routes": [
+      { "number": "10", "stops": [{ "name": "Stop Q" }, { "name": "Stop R" }] }
     ]
   }
 ]

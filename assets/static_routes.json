@@ -6,8 +6,6 @@
       { "name": "Stop B" },
       { "name": "Stop C" },
       { "name": "Stop D" }
-
-
     ]
   },
   {
@@ -25,10 +23,80 @@
     ]
   },
   {
+    "number": "12",
+    "stops": [
+      { "name": "Stop C" },
+      { "name": "Stop D" }
+    ]
+  },
+  {
+    "number": "13",
+    "stops": [
+      { "name": "Stop C" },
+      { "name": "Stop D" }
+    ]
+  },
+  {
     "number": "9a",
     "stops": [
       { "name": "Stop C" },
       { "name": "Stop D" }
+    ]
+  },
+  {
+    "number": "4",
+    "stops": [
+      { "name": "Stop E" },
+      { "name": "Stop F" },
+      { "name": "Stop G" }
+    ]
+  },
+  {
+    "number": "5",
+    "stops": [
+      { "name": "Stop H" },
+      { "name": "Stop I" },
+      { "name": "Stop J" }
+    ]
+  },
+  {
+    "number": "6",
+    "stops": [
+      { "name": "Stop K" },
+      { "name": "Stop L" },
+      { "name": "Stop M" }
+    ]
+  },
+  {
+    "number": "7",
+    "stops": [
+      { "name": "Stop N" },
+      { "name": "Stop O" },
+      { "name": "Stop P" }
+    ]
+  },
+  {
+    "number": "8",
+    "stops": [
+      { "name": "Stop Q" },
+      { "name": "Stop R" },
+      { "name": "Stop S" }
+    ]
+  },
+  {
+    "number": "10",
+    "stops": [
+      { "name": "Stop T" },
+      { "name": "Stop U" },
+      { "name": "Stop V" }
+    ]
+  },
+  {
+    "number": "11",
+    "stops": [
+      { "name": "Stop W" },
+      { "name": "Stop X" },
+      { "name": "Stop Y" }
     ]
   }
 ]

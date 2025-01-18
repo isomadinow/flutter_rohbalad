@@ -17,6 +17,8 @@ class AppViewModel extends ChangeNotifier {
 
   /// Текущая активная вкладка.
   String _activeTab = "routes";
+  String _languageCode = "en"; // Добавляем поле для хранения текущего языка.
+  bool _isDarkTheme = false; // Добавляем поле для хранения текущей темы.
 
   /// Конструктор `AppViewModel`.
   /// 
@@ -37,6 +39,30 @@ class AppViewModel extends ChangeNotifier {
     _activeTab = tab;
     notifyListeners(); // Уведомляем подписчиков об изменении активной вкладки.
   }
+
+  /// Метод для установки активного языка.
+  /// 
+  /// - [languageCode] — код языка, который необходимо активировать.
+  /// Уведомляет слушателей об изменении состояния.
+  void setLanguage(String languageCode) {
+    _languageCode = languageCode;
+    notifyListeners(); // Уведомляем подписчиков об изменении языка.
+  }
+
+  /// Геттер для получения текущего языка.
+  String get languageCode => _languageCode;
+
+  /// Метод для установки активной темы.
+  /// 
+  /// - [isDarkTheme] — `true`, если необходимо установить темную тему; `false`, если светлую.
+  /// Уведомляет слушателей об изменении состояния.
+  void setTheme(bool isDarkTheme) {
+    _isDarkTheme = isDarkTheme;
+    notifyListeners(); // Уведомляем подписчиков об изменении темы.
+  }
+
+  /// Геттер для получения текущей темы.
+  bool get isDarkTheme => _isDarkTheme;
 
   /// Метод для поиска по текущей активной вкладке.
   /// 

@@ -16,6 +16,7 @@ class RegionDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     // Получаем экземпляр `AppViewModel` из контекста.
     final appViewModel = Provider.of<AppViewModel>(context);
+    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
 
     return Row(
       children: [
@@ -29,10 +30,10 @@ class RegionDropdown extends StatelessWidget {
         // Контейнер с выпадающим списком.
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFF5F5F5), // Светло-серый фон контейнера.
+            color: isDarkTheme ? Colors.grey[850] : const Color(0xFFF5F5F5), // Цвет фона контейнера в зависимости от темы.
             borderRadius: BorderRadius.circular(8.0), // Скругленные углы.
             border: Border.all(
-              color: const Color(0xFFB0C4DE), // Светло-голубая рамка.
+              color: isDarkTheme ? Colors.grey[700]! : const Color(0xFFB0C4DE), // Цвет рамки в зависимости от темы.
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 8.0), // Внутренние отступы контейнера.
@@ -45,9 +46,9 @@ class RegionDropdown extends StatelessWidget {
                     value: region.id, // Идентификатор региона.
                     child: Text(
                       region.name, // Название региона.
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16.0,
-                        color: Color(0xFF4B4B4B), // Темно-серый текст.
+                        color: isDarkTheme ? Colors.white : const Color(0xFF4B4B4B), // Цвет текста в зависимости от темы.
                         fontWeight: FontWeight.w500, // Полужирное начертание.
                       ),
                     ),
@@ -63,7 +64,7 @@ class RegionDropdown extends StatelessWidget {
                 (context as Element).markNeedsBuild();
               }
             },
-            dropdownColor: const Color(0xFFF8F8FF), // Очень светлый голубой цвет для выпадающего списка.
+            dropdownColor: isDarkTheme ? Colors.grey[850] : const Color(0xFFF8F8FF), // Цвет фона выпадающего списка в зависимости от темы.
             icon: const Icon(
               Icons.arrow_drop_down,
               color: Color(0xFF87CEEB), // Голубая стрелка вниз.

@@ -7,6 +7,8 @@ import 'widgets/region_dropdown.dart';
 import 'widgets/tab_bar_switcher.dart';
 import 'package:flutter_rohbalad/features/main/views/widgets/search_bar.dart' as custom;
 
+import 'widgets/theme_selector.dart';
+
 /// Главный экран приложения `MainPage`, позволяющий пользователю взаимодействовать
 /// с маршрутами и остановками через поисковую строку, переключатель вкладок и список данных.
 class MainPage extends StatefulWidget {
@@ -19,22 +21,62 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   /// Строка для хранения текущего поискового запроса.
   String _searchQuery = "";
+  final ScrollController _scrollController = ScrollController();
+  Color _appBarColor = Colors.transparent;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_scrollController.offset > 100) {
+      setState(() {
+        _appBarColor = Provider.of<AppViewModel>(context, listen: false).isDarkTheme ? Colors.black : Colors.white;
+      });
+    } else {
+      setState(() {
+        _appBarColor = Colors.transparent;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Белый фон приложения.
+      backgroundColor: context.watch<AppViewModel>().isDarkTheme ? Colors.black : Colors.white, // Фон приложения.
       appBar: AppBar(
         elevation: 0, // Убираем тень.
-        backgroundColor: Colors.white, // Белый фон AppBar.
-        title: RegionDropdown(
-          onRegionSelected: (regionId) {
-            // При выборе региона обновляем данные маршрутов и остановок.
-            final appViewModel = context.read<AppViewModel>();
-            appViewModel.routeViewModel.fetchRoutes();
-            appViewModel.stopViewModel.fetchStops();
-            setState(() {}); // Обновляем состояние, чтобы перерисовать список.
-          },
+        backgroundColor: _appBarColor, // Фон AppBar.
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RegionDropdown(
+              onRegionSelected: (regionId) {
+                // При выборе региона обновляем данные маршрутов и остановок.
+                final appViewModel = Provider.of<AppViewModel>(context, listen: false);
+                appViewModel.routeViewModel.fetchRoutes();
+                appViewModel.stopViewModel.fetchStops();
+                setState(() {}); // Обновляем состояние, чтобы перерисовать список.
+              },
+            ),
+            ThemeSelector(
+              onThemeSelected: (isDarkTheme) {
+                // Обработка смены темы.
+                final appViewModel = Provider.of<AppViewModel>(context, listen: false);
+                appViewModel.setTheme(isDarkTheme);
+                setState(() {}); // Обновляем состояние, чтобы перерисовать интерфейс.
+              },
+            ),
+          ],
         ),
       ),
       body: Column(
@@ -102,6 +144,7 @@ class _MainPageState extends State<MainPage> {
       return const Center(child: Text("Нет маршрутов")); // Сообщение при отсутствии маршрутов.
     }
     return ListView.builder(
+      controller: _scrollController,
       itemCount: appViewModel.routeViewModel.filteredRoutes.length,
       itemBuilder: (context, index) {
         final route = appViewModel.routeViewModel.filteredRoutes[index];
@@ -128,6 +171,7 @@ class _MainPageState extends State<MainPage> {
       return const Center(child: Text("Нет остановок")); // Сообщение при отсутствии остановок.
     }
     return ListView.builder(
+      controller: _scrollController,
       itemCount: appViewModel.stopViewModel.filteredStops.length,
       itemBuilder: (context, index) {
         final stop = appViewModel.stopViewModel.filteredStops[index];

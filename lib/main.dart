@@ -6,6 +6,7 @@ import 'features/routes/viewmodels/route_viewmodel.dart';
 import 'features/stops/viewmodels/stop_viemodel.dart';
 import 'features/regions/viewmodels/region_viewmodel.dart';
 import 'features/main/views/main_page.dart';
+import 'features/main/views/widgets/theme_selector.dart'; // Импортируем виджет выбора темы.
 
 /// Точка входа в приложение.
 void main() {
@@ -48,11 +49,17 @@ class MyApp extends StatelessWidget {
           create: (context) => RegionViewModel(apiService: context.read<ApiService>()),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false, // Убираем баннер режима отладки.
-        title: 'Routes App', // Название приложения.
-        theme: ThemeData(primarySwatch: Colors.blue), // Основная тема приложения.
-        home: const MainPage(), // Главный экран приложения.
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false, // Убираем баннер режима отладки.
+            title: 'Routes App', // Название приложения.
+            theme: ThemeData.light(), // Основная светлая тема приложения.
+            darkTheme: ThemeData.dark(), // Основная темная тема приложения.
+            themeMode: context.watch<AppViewModel>().isDarkTheme ? ThemeMode.dark : ThemeMode.light, // Устанавливаем тему.
+            home: const MainPage(), // Главный экран приложения.
+          );
+        },
       ),
     );
   }

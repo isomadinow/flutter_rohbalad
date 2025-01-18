@@ -29,12 +29,15 @@ class RouteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+
     return Card(
       elevation: 1, // Уровень теней для карточки.
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Внешние отступы.
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0), // Скругление углов карточки.
       ),
+      color: isDarkTheme ? Colors.grey[900] : Colors.white, // Цвет фона карточки в зависимости от темы.
       child: Padding(
         padding: const EdgeInsets.all(12.0), // Внутренние отступы для содержимого карточки.
         child: Row(
@@ -87,10 +90,10 @@ class RouteCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           firstStop,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: isDarkTheme ? Colors.white : Colors.black, // Цвет текста в зависимости от темы.
                           ),
                           overflow: TextOverflow.ellipsis, // Текст в одну строку с многоточием.
                         ),
@@ -110,10 +113,10 @@ class RouteCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           lastStop,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: isDarkTheme ? Colors.white : Colors.black, // Цвет текста в зависимости от темы.
                           ),
                           overflow: TextOverflow.ellipsis, // Текст в одну строку с многоточием.
                         ),

@@ -90,6 +90,7 @@ class StopCard extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w500,
+                                  color: Colors.black, // Изменение цвета текста на черный.
                                 ),
                               ),
                             ),
