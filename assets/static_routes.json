@@ -16,5 +16,19 @@
       { "name": "Stop C" },
       { "name": "Stop D" }
     ]
+  },
+  {
+    "number": "3",
+    "stops": [
+      { "name": "Stop C" },
+      { "name": "Stop D" }
+    ]
+  },
+  {
+    "number": "9a",
+    "stops": [
+      { "name": "Stop C" },
+      { "name": "Stop D" }
+    ]
   }
 ]

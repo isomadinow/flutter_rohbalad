@@ -1,7 +1,7 @@
 [
   {
     "id": "stop-1",
-    "name": "Stop A",
+    "name": "Асал магазин",
     "latitude": 41.311081,
     "longitude": 69.240562,
     "routes": [
@@ -12,7 +12,7 @@
   },
   {
     "id": "stop-2",
-    "name": "Stop B",
+    "name": "Алакучо",
     "latitude": 41.299495,
     "longitude": 69.240073,
     "routes": [
