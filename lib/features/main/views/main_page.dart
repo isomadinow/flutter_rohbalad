@@ -33,6 +33,7 @@ class _MainPageState extends State<MainPage> {
             final appViewModel = context.read<AppViewModel>();
             appViewModel.routeViewModel.fetchRoutes();
             appViewModel.stopViewModel.fetchStops();
+            setState(() {}); // Обновляем состояние, чтобы перерисовать список.
           },
         ),
       ),
@@ -111,6 +112,7 @@ class _MainPageState extends State<MainPage> {
           isFavorite: appViewModel.routeViewModel.favoriteRoutes.contains(route.number), // Проверка избранного.
           onFavoriteTap: () {
             appViewModel.routeViewModel.toggleFavoriteRoute(route.number); // Переключение состояния избранного.
+            setState(() {}); // Обновляем состояние, чтобы перерисовать список.
           },
         );
       },
@@ -135,6 +137,7 @@ class _MainPageState extends State<MainPage> {
           isFavorite: appViewModel.stopViewModel.favoriteStops.contains(stop.id), // Проверка избранного.
           onFavoriteTap: () {
             appViewModel.stopViewModel.toggleFavoriteStop(stop.id); // Переключение состояния избранного.
+            setState(() {}); // Обновляем состояние, чтобы перерисовать список.
           },
         );
       },

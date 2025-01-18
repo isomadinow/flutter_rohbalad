@@ -78,6 +78,17 @@ class RouteViewModel extends BaseViewModel {
       _favoriteRoutes.add(routeNumber);
     }
     log('Избранные маршруты: $_favoriteRoutes'); // Логируем обновленное избранное.
+    _sortRoutes(); // Сортируем маршруты, чтобы избранные были наверху.
     notifyListeners(); // Уведомляем слушателей об изменениях в избранном.
+  }
+
+  void _sortRoutes() {
+    _filteredRoutes.sort((a, b) {
+      final aFavorite = _favoriteRoutes.contains(a.number);
+      final bFavorite = _favoriteRoutes.contains(b.number);
+      if (aFavorite && !bFavorite) return -1;
+      if (!aFavorite && bFavorite) return 1;
+      return 0;
+    });
   }
 }

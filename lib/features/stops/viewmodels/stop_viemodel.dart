@@ -77,6 +77,17 @@ class StopViewModel extends BaseViewModel {
       _favoriteStops.add(stopId);
     }
     log('Избранные остановки: $_favoriteStops'); // Логируем обновленное избранное.
+    _sortStops(); // Сортируем остановки, чтобы избранные были наверху.
     notifyListeners(); // Уведомляем слушателей об изменениях в избранном.
+  }
+
+  void _sortStops() {
+    _filteredStops.sort((a, b) {
+      final aFavorite = _favoriteStops.contains(a.id);
+      final bFavorite = _favoriteStops.contains(b.id);
+      if (aFavorite && !bFavorite) return -1;
+      if (!aFavorite && bFavorite) return 1;
+      return 0;
+    });
   }
 }

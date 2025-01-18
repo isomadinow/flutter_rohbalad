@@ -59,6 +59,8 @@ class RegionDropdown extends StatelessWidget {
               if (value != null) {
                 appViewModel.regionViewModel.setSelectedRegion(value); // Устанавливаем выбранный регион.
                 onRegionSelected(value); // Вызываем переданный коллбэк.
+                // Обновляем состояние, чтобы перерисовать список.
+                (context as Element).markNeedsBuild();
               }
             },
             dropdownColor: const Color(0xFFF8F8FF), // Очень светлый голубой цвет для выпадающего списка.
