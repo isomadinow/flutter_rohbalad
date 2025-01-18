@@ -70,13 +70,11 @@ class StopViewModel extends BaseViewModel {
   /// - [stopId] — идентификатор остановки.
   void toggleFavoriteStop(String stopId) {
     if (_favoriteStops.contains(stopId)) {
-      // Если остановка уже в избранном, удаляем её.
       _favoriteStops.remove(stopId);
     } else {
-      // Если остановки нет в избранном, добавляем её.
       _favoriteStops.add(stopId);
     }
-    log('Избранные остановки: $_favoriteStops'); // Логируем обновленное избранное.
+    log('Избранные остановки: $_favoriteStops');
     _sortStops(); // Сортируем остановки, чтобы избранные были наверху.
     notifyListeners(); // Уведомляем слушателей об изменениях в избранном.
   }
@@ -87,7 +85,10 @@ class StopViewModel extends BaseViewModel {
       final bFavorite = _favoriteStops.contains(b.id);
       if (aFavorite && !bFavorite) return -1;
       if (!aFavorite && bFavorite) return 1;
-      return 0;
+      if (aFavorite && bFavorite) {
+        return _favoriteStops.toList().indexOf(b.id).compareTo(_favoriteStops.toList().indexOf(a.id));
+      }
+      return _stops.indexOf(a).compareTo(_stops.indexOf(b)); // Сохраняем исходный порядок.
     });
   }
 }

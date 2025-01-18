@@ -71,10 +71,8 @@ class RouteViewModel extends BaseViewModel {
   /// - [routeNumber] — номер маршрута.
   void toggleFavoriteRoute(String routeNumber) {
     if (_favoriteRoutes.contains(routeNumber)) {
-      // Если маршрут уже в избранном, удаляем его.
       _favoriteRoutes.remove(routeNumber);
     } else {
-      // Если маршрута нет в избранном, добавляем его.
       _favoriteRoutes.add(routeNumber);
     }
     log('Избранные маршруты: $_favoriteRoutes'); // Логируем обновленное избранное.
@@ -88,7 +86,10 @@ class RouteViewModel extends BaseViewModel {
       final bFavorite = _favoriteRoutes.contains(b.number);
       if (aFavorite && !bFavorite) return -1;
       if (!aFavorite && bFavorite) return 1;
-      return 0;
+      if (aFavorite && bFavorite) {
+        return _favoriteRoutes.toList().indexOf(b.number).compareTo(_favoriteRoutes.toList().indexOf(a.number));
+      }
+      return _routes.indexOf(a).compareTo(_routes.indexOf(b)); // Сохраняем исходный порядок.
     });
   }
 }
