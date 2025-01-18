@@ -22,29 +22,9 @@ class _MainPageState extends State<MainPage> {
   /// Строка для хранения текущего поискового запроса.
   String _searchQuery = "";
   final ScrollController _scrollController = ScrollController();
-  Color _appBarColor = Colors.transparent;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_scrollListener);
-  }
-
-  void _scrollListener() {
-    if (_scrollController.offset > 100) {
-      setState(() {
-        _appBarColor = Provider.of<AppViewModel>(context, listen: false).isDarkTheme ? Colors.black : Colors.white;
-      });
-    } else {
-      setState(() {
-        _appBarColor = Colors.transparent;
-      });
-    }
-  }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
   }
@@ -52,10 +32,10 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.watch<AppViewModel>().isDarkTheme ? Colors.black : Colors.white, // Фон приложения.
+      backgroundColor: context.watch<AppViewModel>().isDarkTheme ? Colors.black : Colors.white,
       appBar: AppBar(
         elevation: 0, // Убираем тень.
-        backgroundColor: _appBarColor, // Фон AppBar.
+        backgroundColor: Colors.grey, // Чёрный фон AppBar.
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

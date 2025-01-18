@@ -22,7 +22,7 @@ class StopCard extends StatelessWidget {
     const Color circleColor = Colors.green; // Цвет для кругов.
 
     return Card(
-      elevation: 1,
+      elevation: 5,
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
