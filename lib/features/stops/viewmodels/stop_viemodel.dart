@@ -1,82 +1,73 @@
-import 'dart:developer'; // Импорт для логирования.
-import '../../../core/api_service.dart'; // Импорт API-сервиса.
-import '../../../core/base_viewmodel.dart'; // Импорт базовой модели представления.
-import '../models/stop.dart'; // Импорт модели остановки.
+import 'dart:developer';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/api_service.dart';
+import '../../../core/base_viewmodel.dart';
+import '../models/stop.dart';
 
-/// Класс `StopViewModel`, наследуемый от `BaseViewModel`, отвечает за управление данными остановок.
 class StopViewModel extends BaseViewModel {
-  /// Экземпляр сервиса для работы с API.
   final ApiService apiService;
 
-  /// Конструктор класса `StopViewModel`.
   StopViewModel({required this.apiService});
 
-  /// Список всех остановок.
   List<Stop> _stops = [];
-
-  /// Список отфильтрованных остановок.
   List<Stop> _filteredStops = [];
-
-  /// Множество избранных остановок (их идентификаторы).
   final Set<String> _favoriteStops = {};
 
-  /// Геттер для получения списка отфильтрованных остановок.
   List<Stop> get filteredStops => _filteredStops;
-
-  /// Геттер для получения множества избранных остановок.
   Set<String> get favoriteStops => _favoriteStops;
 
-  /// Метод для загрузки остановок с сервера.
   Future<void> fetchStops() async {
-    setLoading(true); // Устанавливаем статус загрузки.
+    setLoading(true);
     try {
-      // Запрос к API для получения данных об остановках.
       _stops = await apiService.fetchData(
-        'stops', // Конечная точка API.
-        (json) => Stop.fromJson(json), // Маппинг JSON в объект `Stop`.
+        'stops',
+        (json) => Stop.fromJson(json),
       );
-
-      // Изначально все остановки попадают в отфильтрованный список.
       _filteredStops = List.from(_stops);
-      log('Остановки загружены: ${_stops.length}'); // Логируем количество остановок.
+      await _loadFavoriteStops();
+      _sortStops(); // Сортируем остановки с учетом избранного.
     } catch (e) {
-      // Логируем ошибку при загрузке данных.
       log('Ошибка загрузки остановок: $e');
     } finally {
-      // Завершаем загрузку и уведомляем слушателей об изменениях.
       setLoading(false);
       notifyListeners();
     }
   }
 
-  /// Метод для поиска остановок по заданному запросу.
-  /// 
-  /// - [query] — строка поиска.
   void searchStops(String query) {
     if (query.isEmpty) {
-      // Если запрос пустой, показываем все остановки.
       _filteredStops = List.from(_stops);
     } else {
-      // Фильтруем остановки по названию, с учетом регистра.
       _filteredStops = _stops
           .where((stop) => stop.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
     }
-    notifyListeners(); // Уведомляем слушателей об изменениях в списке остановок.
+    _sortStops(); // Сортируем после поиска.
+    notifyListeners();
   }
 
-  /// Метод для добавления/удаления остановки из избранного.
-  /// 
-  /// - [stopId] — идентификатор остановки.
   void toggleFavoriteStop(String stopId) {
     if (_favoriteStops.contains(stopId)) {
       _favoriteStops.remove(stopId);
     } else {
       _favoriteStops.add(stopId);
     }
-    log('Избранные остановки: $_favoriteStops');
-    _sortStops(); // Сортируем остановки, чтобы избранные были наверху.
-    notifyListeners(); // Уведомляем слушателей об изменениях в избранном.
+    _saveFavoriteStops();
+    _sortStops(); // Пересортируем остановки.
+    notifyListeners();
+  }
+
+  Future<void> _loadFavoriteStops() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String>? favorites = prefs.getStringList('favoriteStops');
+    if (favorites != null) {
+      _favoriteStops.addAll(favorites);
+    }
+  }
+
+  Future<void> _saveFavoriteStops() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('favoriteStops', _favoriteStops.toList());
   }
 
   void _sortStops() {
@@ -85,10 +76,7 @@ class StopViewModel extends BaseViewModel {
       final bFavorite = _favoriteStops.contains(b.id);
       if (aFavorite && !bFavorite) return -1;
       if (!aFavorite && bFavorite) return 1;
-      if (aFavorite && bFavorite) {
-        return _favoriteStops.toList().indexOf(b.id).compareTo(_favoriteStops.toList().indexOf(a.id));
-      }
-      return _stops.indexOf(a).compareTo(_stops.indexOf(b)); // Сохраняем исходный порядок.
+      return 0;
     });
   }
 }

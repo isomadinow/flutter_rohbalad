@@ -100,7 +100,9 @@ class StopCard extends StatelessWidget {
                 isFavorite ? Icons.star : Icons.star_border,
                 color: isFavorite ? Colors.yellow : Colors.grey,
               ),
-              onPressed: onFavoriteTap,
+              onPressed: () {
+                onFavoriteTap(); // Сохранение состояния избранного.
+              },
             ),
           ],
         ),
