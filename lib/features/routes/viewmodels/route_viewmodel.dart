@@ -71,13 +71,46 @@ class RouteViewModel extends BaseViewModel {
     await prefs.setStringList('favoriteRoutes', _favoriteRoutes.toList());
   }
 
-  void _sortRoutes() {
-    _filteredRoutes.sort((a, b) {
-      final aFavorite = _favoriteRoutes.contains(a.number);
-      final bFavorite = _favoriteRoutes.contains(b.number);
-      if (aFavorite && !bFavorite) return -1;
-      if (!aFavorite && bFavorite) return 1;
-      return 0;
-    });
+void _sortRoutes() {
+  _filteredRoutes.sort((a, b) {
+    final aFavorite = _favoriteRoutes.contains(a.number);
+    final bFavorite = _favoriteRoutes.contains(b.number);
+
+    if (aFavorite && !bFavorite) return -1;
+    if (!aFavorite && bFavorite) return 1;
+
+    // Если оба маршрута не в избранном, сортируем по "естественному порядку".
+    return _naturalSort(a.number, b.number);
+  });
+}
+
+/// Метод для естественной сортировки строк.
+int _naturalSort(String a, String b) {
+  final regExp = RegExp(r'(\d+|\D+)'); // Разделяем строки на числа и текст.
+  final aParts = regExp.allMatches(a).map((m) => m.group(0)!).toList();
+  final bParts = regExp.allMatches(b).map((m) => m.group(0)!).toList();
+
+  for (var i = 0; i < aParts.length && i < bParts.length; i++) {
+    final aPart = aParts[i];
+    final bPart = bParts[i];
+
+    // Если оба элемента числа, сравниваем их как числа.
+    final aInt = int.tryParse(aPart);
+    final bInt = int.tryParse(bPart);
+
+    if (aInt != null && bInt != null) {
+      final compare = aInt.compareTo(bInt);
+      if (compare != 0) return compare;
+    } else {
+      // Если элементы текстовые, сравниваем как строки.
+      final compare = aPart.compareTo(bPart);
+      if (compare != 0) return compare;
+    }
   }
+
+  // Если все части равны, сравниваем длину.
+  return aParts.length.compareTo(bParts.length);
+}
+
+
 }

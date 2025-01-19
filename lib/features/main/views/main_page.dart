@@ -9,8 +9,7 @@ import 'package:flutter_rohbalad/features/main/views/widgets/search_bar.dart' as
 
 import 'widgets/theme_selector.dart';
 
-/// Главный экран приложения `MainPage`, позволяющий пользователю взаимодействовать
-/// с маршрутами и остановками через поисковую строку, переключатель вкладок и список данных.
+/// Главный экран приложения `MainPage`.
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -35,25 +34,19 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: context.watch<AppViewModel>().isDarkTheme ? Colors.black : Colors.white,
       appBar: AppBar(
         elevation: 0, // Убираем тень.
-        backgroundColor: Colors.grey, // Чёрный фон AppBar.
+        backgroundColor: Colors.grey, // Серый фон AppBar.
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // Здесь вместо выпадающего списка просто отображаем текст текущего региона.
             RegionDropdown(
-              onRegionSelected: (regionId) {
-                // При выборе региона обновляем данные маршрутов и остановок.
-                final appViewModel = Provider.of<AppViewModel>(context, listen: false);
-                appViewModel.routeViewModel.fetchRoutes();
-                appViewModel.stopViewModel.fetchStops();
-                setState(() {}); // Обновляем состояние, чтобы перерисовать список.
-              },
+              regionName: "Худжанд", // Текущий регион (можно динамически подгружать из ViewModel).
             ),
             ThemeSelector(
               onThemeSelected: (isDarkTheme) {
-                // Обработка смены темы.
                 final appViewModel = Provider.of<AppViewModel>(context, listen: false);
                 appViewModel.setTheme(isDarkTheme);
-                setState(() {}); // Обновляем состояние, чтобы перерисовать интерфейс.
+                setState(() {}); // Перерисовываем интерфейс при смене темы.
               },
             ),
           ],
@@ -89,7 +82,6 @@ class _MainPageState extends State<MainPage> {
                 onTabSelected: (tab) {
                   setState(() {
                     appViewModel.setActiveTab(tab); // Устанавливаем активную вкладку.
-                    // Инициируем поиск с текущим запросом при переключении вкладки.
                     if (tab == "routes") {
                       appViewModel.routeViewModel.searchRoutes(_searchQuery);
                     } else {
@@ -118,10 +110,10 @@ class _MainPageState extends State<MainPage> {
   /// Метод для построения списка маршрутов.
   Widget _buildRoutesList(AppViewModel appViewModel) {
     if (appViewModel.routeViewModel.isLoading) {
-      return const Center(child: CircularProgressIndicator()); // Отображаем индикатор загрузки.
+      return const Center(child: CircularProgressIndicator());
     }
     if (appViewModel.routeViewModel.filteredRoutes.isEmpty) {
-      return const Center(child: Text("Нет маршрутов")); // Сообщение при отсутствии маршрутов.
+      return const Center(child: Text("Нет маршрутов"));
     }
     return ListView.builder(
       controller: _scrollController,
@@ -129,13 +121,13 @@ class _MainPageState extends State<MainPage> {
       itemBuilder: (context, index) {
         final route = appViewModel.routeViewModel.filteredRoutes[index];
         return RouteCard(
-          routeNumber: route.number, // Номер маршрута.
-          firstStop: route.stops.first, // Первая остановка маршрута.
-          lastStop: route.stops.last, // Последняя остановка маршрута.
-          isFavorite: appViewModel.routeViewModel.favoriteRoutes.contains(route.number), // Проверка избранного.
+          routeNumber: route.number,
+          firstStop: route.stops.first,
+          lastStop: route.stops.last,
+          isFavorite: appViewModel.routeViewModel.favoriteRoutes.contains(route.number),
           onFavoriteTap: () {
-            appViewModel.routeViewModel.toggleFavoriteRoute(route.number); // Переключение состояния избранного.
-            setState(() {}); // Обновляем состояние, чтобы перерисовать список.
+            appViewModel.routeViewModel.toggleFavoriteRoute(route.number);
+            setState(() {});
           },
         );
       },
@@ -145,10 +137,10 @@ class _MainPageState extends State<MainPage> {
   /// Метод для построения списка остановок.
   Widget _buildStopsList(AppViewModel appViewModel) {
     if (appViewModel.stopViewModel.isLoading) {
-      return const Center(child: CircularProgressIndicator()); // Отображаем индикатор загрузки.
+      return const Center(child: CircularProgressIndicator());
     }
     if (appViewModel.stopViewModel.filteredStops.isEmpty) {
-      return const Center(child: Text("Нет остановок")); // Сообщение при отсутствии остановок.
+      return const Center(child: Text("Нет остановок"));
     }
     return ListView.builder(
       controller: _scrollController,
@@ -156,12 +148,12 @@ class _MainPageState extends State<MainPage> {
       itemBuilder: (context, index) {
         final stop = appViewModel.stopViewModel.filteredStops[index];
         return StopCard(
-          stopName: stop.name, // Название остановки.
-          routeNumbers: stop.routes.map((route) => route.number).toList(), // Список номеров маршрутов.
-          isFavorite: appViewModel.stopViewModel.favoriteStops.contains(stop.id), // Проверка избранного.
+          stopName: stop.name,
+          routeNumbers: stop.routes.map((route) => route.number).toList(),
+          isFavorite: appViewModel.stopViewModel.favoriteStops.contains(stop.id),
           onFavoriteTap: () {
-            appViewModel.stopViewModel.toggleFavoriteStop(stop.id); // Переключение состояния избранного.
-            setState(() {}); // Обновляем состояние, чтобы перерисовать список.
+            appViewModel.stopViewModel.toggleFavoriteStop(stop.id);
+            setState(() {});
           },
         );
       },
