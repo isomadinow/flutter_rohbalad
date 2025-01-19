@@ -20,7 +20,7 @@ class ThemeSelector extends StatelessWidget {
     return IconButton(
       icon: Icon(
         isDarkTheme ? Icons.nights_stay : Icons.wb_sunny, // Иконка для переключения темы.
-        color: isDarkTheme ? Colors.yellow : Colors.blue, // Цвет иконки в зависимости от темы.
+        color: isDarkTheme ? Colors.yellow : Colors.yellow, // Цвет иконки в зависимости от темы.
       ),
       onPressed: () {
         onThemeSelected(!isDarkTheme); // Переключаем тему.
